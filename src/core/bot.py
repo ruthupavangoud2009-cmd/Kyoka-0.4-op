@@ -85,7 +85,7 @@ async def get_prefix(bot: KyokaBot, message: discord.Message) -> list[str]:
 _DEFAULT_PROXY_SENTINEL = object()
 
 
-class KyokaBot(commands.Bot):
+class KyokaBot(commands.AutoShardedBot):
     """Production-grade custom Discord bot class for Kyoka."""
 
     def __init__(self, proxy: Any = _DEFAULT_PROXY_SENTINEL) -> None:
@@ -128,6 +128,12 @@ class KyokaBot(commands.Bot):
 
         if Config.CLIENT_ID:
             self._connection.application_id = Config.CLIENT_ID
+
+        logger.info(
+            "Gateway sharding configured: shard_count=%s shard_ids=%s",
+            Config.SHARD_COUNT or "Discord auto-discovery",
+            list(Config.SHARD_IDS) if Config.SHARD_IDS else "all assigned shards",
+        )
 
         # Telemetry & Performance Instrumentation (bounded storage)
         from collections import deque
