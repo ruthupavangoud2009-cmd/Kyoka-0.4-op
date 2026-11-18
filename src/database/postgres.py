@@ -62,7 +62,7 @@ class PostgresDatabase(BaseDatabase):
             return await asyncpg.create_pool(
                 clean_dsn,
                 min_size=max(1, int(os.getenv("DB_POOL_MIN_SIZE", "1"))),
-                max_size=max(1, int(os.getenv("DB_POOL_MAX_SIZE", "10"))),
+                max_size=max(max(1, int(os.getenv("DB_POOL_MIN_SIZE", "1"))), int(os.getenv("DB_POOL_MAX_SIZE", "10"))),
                 command_timeout=30,
                 statement_cache_size=0,
             )
