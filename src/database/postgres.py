@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 from typing import Any
 import asyncpg
 
@@ -60,8 +61,8 @@ class PostgresDatabase(BaseDatabase):
         try:
             return await asyncpg.create_pool(
                 clean_dsn,
-                min_size=2,
-                max_size=10,
+                min_size=max(1, int(os.getenv("DB_POOL_MIN_SIZE", "1"))),
+                max_size=max(1, int(os.getenv("DB_POOL_MAX_SIZE", "10"))),
                 command_timeout=30,
                 statement_cache_size=0,
             )
