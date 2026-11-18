@@ -34,6 +34,32 @@ def _clean_proxy_url(value: str | None) -> str | None:
     return val or None
 
 
+def _parse_shard_ids(raw: str | None) -> tuple[int, ...]:
+    """Parse a comma-separated shard ID list, rejecting malformed or duplicate IDs."""
+    if not raw or not raw.strip():
+        return ()
+    values: list[int] = []
+    for token in raw.split(","):
+        token = token.strip()
+        if not token.isascii() or not token.isdecimal():
+            raise ValueError(f"Invalid shard ID {token!r}; use comma-separated non-negative integers.")
+        value = int(token)
+        if value in values:
+            raise ValueError(f"Duplicate shard ID {value} in SHARD_IDS.")
+        values.append(value)
+    return tuple(values)
+
+
+def _parse_shard_count(raw: str | None) -> int | None:
+    """Return an explicit positive shard count, or None for Discord auto-discovery."""
+    if raw is None or not raw.strip():
+        return None
+    value = raw.strip()
+    if not value.isascii() or not value.isdecimal() or int(value) < 1:
+        raise ValueError("SHARD_COUNT must be a positive integer when set.")
+    return int(value)
+
+
 def parse_proxy_pool(raw: str | None) -> list[str]:
     """Parse comma, semicolon, or newline-separated proxy URLs into unique clean URLs."""
     if not raw or raw.strip().lower() in ("none", "direct", "off", "disabled", "false"):
