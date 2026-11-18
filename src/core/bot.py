@@ -114,6 +114,8 @@ class KyokaBot(commands.AutoShardedBot):
             strip_after_prefix=True,
             status=discord.Status.online,
             proxy=proxy_url,
+            shard_count=Config.SHARD_COUNT,
+            shard_ids=list(Config.SHARD_IDS) or None,
             allowed_mentions=discord.AllowedMentions(
                 everyone=False,
                 roles=False,
