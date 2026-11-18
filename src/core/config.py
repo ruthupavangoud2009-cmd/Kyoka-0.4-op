@@ -160,6 +160,10 @@ class Config:
         os.getenv("SYNC_COMMANDS_ON_STARTUP", "true").lower() in ("true", "1", "yes")
     )
     
+    # Discord gateway sharding. Unset values let Discord.py discover shard count.
+    SHARD_COUNT: int | None = _parse_shard_count(os.getenv("SHARD_COUNT"))
+    SHARD_IDS: tuple[int, ...] = _parse_shard_ids(os.getenv("SHARD_IDS"))
+
     # PostgreSQL / Supabase Database Settings
     DATABASE_URL: str = os.getenv("DATABASE_URL", "").strip()
 
@@ -212,6 +216,10 @@ class Config:
     @classmethod
     def validate(cls) -> None:
         """Validate required configuration values."""
+        if cls.SHARD_COUNT is None and cls.SHARD_IDS:
+            raise ValueError("SHARD_COUNT is required when SHARD_IDS is configured.")
+        if cls.SHARD_COUNT is not None and any(shard_id >= cls.SHARD_COUNT for shard_id in cls.SHARD_IDS):
+            raise ValueError("Every SHARD_IDS value must be less than SHARD_COUNT.")
         if not cls.TOKEN:
             raise ValueError(
                 "DISCORD_TOKEN is missing! Please set your bot token in the .env file."
