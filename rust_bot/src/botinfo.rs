@@ -3,6 +3,16 @@
 //! buttons belong in the Serenity command adapter.
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+fn grouped_number(value: u64) -> String {
+    let raw = value.to_string();
+    let mut out = String::with_capacity(raw.len() + raw.len() / 3);
+    for (i, ch) in raw.chars().enumerate() {
+        if i > 0 && (raw.len() - i) % 3 == 0 { out.push(','); }
+        out.push(ch);
+    }
+    out
+}
+
 pub struct BotInfo {
     pub name: String,
     pub owner_id: u64,
@@ -30,8 +40,8 @@ impl BotInfo {
         let ping = self.latency_ms.map(|v| format!("{v} ms")).unwrap_or_else(|| "Unavailable".to_owned());
         let bot_id = self.bot_id.map(|id| id.to_string()).unwrap_or_else(|| "Unavailable".to_owned());
         format!(
-            "**{} Information**\n**Creator:** Aizen\n**Owner ID:** `{}`\n**Bot ID:** `{}`\n\n**Status**\n**Uptime:** `{}`\n**API latency:** `{}` • **Gateway ping:** `{}`\n**Servers:** `{}` • **Members across servers:** `{:,}`\n\n**Commands**\n**Prefix:** `{}` • **Help:** `{}help` or `/help`",
-            self.name, self.owner_id, bot_id, self.uptime_string(), ping, ping, self.guild_count, self.member_count, self.prefix, self.prefix
+            "**{} Information**\n**Creator:** Aizen\n**Owner ID:** `{}`\n**Bot ID:** `{}`\n\n**Status**\n**Uptime:** `{}`\n**API latency:** `{}` • **Gateway ping:** `{}`\n**Servers:** `{}` • **Members across servers:** `{}`\n\n**Commands**\n**Prefix:** `{}` • **Help:** `{}help` or `/help`",
+            self.name, self.owner_id, bot_id, self.uptime_string(), ping, ping, self.guild_count, grouped_number(self.member_count), self.prefix, self.prefix
         )
     }
 }
@@ -69,6 +79,6 @@ mod tests {
         info.bot_id = None;
         let summary = info.summary();
         assert!(summary.contains("Unavailable"));
-        assert!(summary.contains("0h 0m") == false);
+        assert!(summary.contains("API latency:** `Unavailable`"));
     }
 }
