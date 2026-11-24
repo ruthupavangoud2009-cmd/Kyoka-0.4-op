@@ -23,6 +23,6 @@ This is not yet a complete port. The Python bot has hundreds of modules, includi
 - `src/config.rs`: ports token/prefix resolution, application ID validation, shard parsing, proxy URL/pool parsing, with unit tests.
 - `src/ping.rs`: ports repeated-ping argument parsing and its cap/error behavior, with unit tests.
 - `src/membercount.rs`: ports member count/bot/human calculation and response-line formatting from `src/cogs/general/membercount.py`, with unit tests (gateway integration remains pending).
-- `src/botinfo.rs`: ports uptime formatting, bot runtime summary, latency and grouped member statistics from `src/cogs/general/botinfo.py`, with unit tests (Discord state collection and buttons remain pending).
+- `src/botinfo.rs`: ports uptime formatting, bot runtime summary, latency and grouped member statistics from `src/cogs/general/botinfo.py`, with unit tests (Discord state collection and buttons remain pending).\n- `src/telemetry.rs`: ports uptime, latency, resource metrics, platform/runtime summary and guild/member formatting from `src/cogs/general/stats.py`; telemetry values are adapter-supplied and covered by unit tests.
 
 These are partial feature ports, not yet wired into complete Discord commands. Rust compilation/tests have not yet been run.
