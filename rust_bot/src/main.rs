@@ -3,6 +3,7 @@ mod config;
 mod ping;
 mod membercount;
 mod botinfo;
+mod telemetry;
 
 use axum::{routing::get, Router};
 use serenity::{
