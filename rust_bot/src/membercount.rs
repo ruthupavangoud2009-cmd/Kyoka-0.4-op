@@ -28,11 +28,21 @@ impl MemberCounts {
         Self { total, bots, humans: total - bots }
     }
 
+    fn grouped_number(value: u64) -> String {
+        let raw = value.to_string();
+        let mut out = String::with_capacity(raw.len() + raw.len() / 3);
+        for (i, ch) in raw.chars().enumerate() {
+            if i > 0 && (raw.len() - i) % 3 == 0 { out.push(','); }
+            out.push(ch);
+        }
+        out
+    }
+
     pub fn response_lines(&self, dot: &str) -> String {
         let prefix = if dot.is_empty() { String::new() } else { format!("{dot} ") };
         format!(
-            "{prefix}**Total Member:** `{:,}`\n{prefix}**Humans:** `{:,}`\n{prefix}**Bot:** `{:,}`",
-            self.total, self.humans, self.bots
+            "{prefix}**Total Member:** `{}`\n{prefix}**Humans:** `{}`\n{prefix}**Bot:** `{}`",
+            Self::grouped_number(self.total), Self::grouped_number(self.humans), Self::grouped_number(self.bots)
         )
     }
 }
