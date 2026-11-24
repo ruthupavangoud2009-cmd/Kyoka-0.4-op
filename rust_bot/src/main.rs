@@ -4,6 +4,7 @@ mod ping;
 mod membercount;
 mod botinfo;
 mod telemetry;
+mod music_queue;
 
 use axum::{routing::get, Router};
 use serenity::{
@@ -34,7 +35,7 @@ impl EventHandler for KyokaHandler {
                 let _ = msg.reply(&ctx, "🏓 Pong! KYOKA Rust is online.").await;
             }
             "rustinfo" => {
-                let _ = msg.reply(&ctx, "KYOKA Rust migration is running alongside the preserved Python implementation.").await;
+                let _ = msg.reply(&ctx, "KYOKA Rust-only migration is in progress.").await;
             }
             _ => {}
         }
