@@ -28,7 +28,7 @@ impl EventHandler for KyokaHandler {
     }
 
     async fn message(&self, ctx: Context, msg: Message) {
-        if msg.author.bot() { return; }
+        if msg.author.bot { return; }
 
         let prefix = self.prefix.as_str();
         if !msg.content.starts_with(prefix) { return; }
