@@ -4,6 +4,7 @@ mod ping;
 mod membercount;
 mod botinfo;
 mod telemetry;
+mod database;
 mod music_queue;
 
 use axum::{routing::get, Router};
@@ -50,6 +51,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let token = config::token().map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, e))?;
     let prefix = config::prefix();
+    if let Ok(database_url) = env::var("DATABASE_URL") {
+        match database::Database::connect(&database_url).await {
+            Ok(db) => { if let Err(e) = db.ping().await { eprintln!("PostgreSQL ping failed: {e}"); } else { println!("KYOKA PostgreSQL connected; migrations applied."); } }
+            Err(e) => eprintln!("PostgreSQL initialization failed: {e}"),
+        }
+    } else { println!("DATABASE_URL not configured; starting without persistent database."); }
     let port: u16 = env::var("PORT").unwrap_or_else(|_| "8080".to_string()).parse()?;
 
     let app = Router::new()
