@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS kyoka_user_balances (
 );
 
 CREATE TABLE IF NOT EXISTS kyoka_economy_transactions (
-    id UUID PRIMARYKEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     guild_id BIGINT NOT NULL,
     actor_id BIGINT NOT NULL,
     target_id BIGINT,
