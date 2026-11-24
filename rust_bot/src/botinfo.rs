@@ -2,7 +2,6 @@
 //! `src/cogs/general/botinfo.py`. Discord-specific data collection and link
 //! buttons belong in the Serenity command adapter.
 
-#[derive(Debug, Clone, PartialEq, Eq)]
 fn grouped_number(value: u64) -> String {
     let raw = value.to_string();
     let mut out = String::with_capacity(raw.len() + raw.len() / 3);
