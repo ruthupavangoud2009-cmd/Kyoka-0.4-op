@@ -1,4 +1,5 @@
 use std::{env, sync::Arc};
+mod config;
 
 use axum::{routing::get, Router};
 use serenity::{
@@ -42,8 +43,8 @@ async fn health() -> &'static str { "KYOKA Rust: healthy" }
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::dotenv().ok();
 
-    let token = env::var("BOT_TOKEN").or_else(|_| env::var("DISCORD_TOKEN"))?;
-    let prefix = env::var("DEFAULT_PREFIX").unwrap_or_else(|_| "?".to_string());
+    let token = config::token().map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidInput, e))?;
+    let prefix = config::prefix();
     let port: u16 = env::var("PORT").unwrap_or_else(|_| "8080".to_string()).parse()?;
 
     let app = Router::new()
