@@ -2,6 +2,7 @@ use std::{env, sync::Arc};
 mod config;
 mod ping;
 mod membercount;
+mod botinfo;
 
 use axum::{routing::get, Router};
 use serenity::{
