@@ -7,6 +7,7 @@ mod telemetry;
 mod database;
 mod anti_nuke;
 mod tickets;
+mod ai;
 mod music_queue;
 
 use axum::{routing::get, Router};
