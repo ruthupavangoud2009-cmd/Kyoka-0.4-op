@@ -1,5 +1,6 @@
 use std::{env, sync::Arc};
 mod config;
+mod ping;
 
 use axum::{routing::get, Router};
 use serenity::{
