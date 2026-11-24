@@ -25,4 +25,6 @@ This is not yet a complete port. The Python bot has hundreds of modules, includi
 - `src/config.rs`: ports token/prefix resolution, application ID validation, shard parsing, proxy URL/pool parsing, with unit tests.
 - `src/ping.rs`: ports repeated-ping argument parsing and its cap/error behavior, with unit tests.
 
-These are real source ports from `src/core/config.py` and `src/cogs/general/ping.py`. The broader bot systems remain unported. Rust compilation/tests have not yet been run.
+These are real source ports from `src/core/config.py`, `src/cogs/general/ping.py`, and `src/cogs/general/membercount.py`.
+- `src/membercount.rs`: ports member count/bot/human calculation and response-line formatting from `src/cogs/general/membercount.py`, with unit tests (gateway integration remains pending).
+ The broader bot systems remain unported. Rust compilation/tests have not yet been run.
