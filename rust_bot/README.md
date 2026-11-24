@@ -1,28 +1,27 @@
-# KYOKA Rust port (foundation)
+# KYOKA — Rust rewrite
 
-This is a **parallel Rust implementation area**. Existing Python files remain untouched.
+The target runtime is **Rust-only**. The Python backup is a feature reference and is not intended to be part of the Rust deployment/runtime.
 
-## Current foundation
-- Discord gateway connection using Serenity
-- Environment token support: `BOT_TOKEN` or `DISCORD_TOKEN`
-- Prefix from `DEFAULT_PREFIX` (defaults to `?`)
-- Basic `ping` and `rustinfo` test commands
-- HTTP health endpoints `/` and `/health` on `PORT` (defaults to 8080)
+## Rust foundation
+- Discord Gateway via Serenity
+- Tokio async runtime
+- Axum health endpoints at `/` and `/health`
+- Config parsing and environment helpers
+- Ping argument parsing
+- Member-count formatting
+- Bot-info and telemetry formatting
+- Guild-independent music queue state (enqueue, advance, repeat modes, shuffle, previous, multi-skip, remove, move, clear, stop)
 
-## Build/run
-From this directory:
+## Build / run
+From `rust_bot/`:
 ```sh
 cargo build
 BOT_TOKEN=... cargo run
 ```
 
+Set `PORT` to override the health-server port (default 8080), and `BOT_PREFIX` or `DEFAULT_PREFIX` for the command prefix.
+
 ## Migration status
-This is not yet a complete port. The Python bot has hundreds of modules, including moderation, music, tickets, economy, AI/voice, giveaways, utilities, and dashboard APIs. Port each feature in parity, migrate persistence and configuration, and add Rust tests before production cutover. Do not remove or replace the Python implementation until parity and validation are complete.
+This branch is a work in progress and **not yet a complete or verified replacement bot**. Queue state is implemented as transport-independent Rust logic; Lavalink connection/player events and Discord voice integration are still pending. Other systems still need full ports: moderation/Anti-Nuke, tickets, AI/voice, TOP AI/economy, PostgreSQL persistence, dashboard/OAuth/API, and remaining commands/events/tasks.
 
-## Ported source modules (in progress)
-- `src/config.rs`: ports token/prefix resolution, application ID validation, shard parsing, proxy URL/pool parsing, with unit tests.
-- `src/ping.rs`: ports repeated-ping argument parsing and its cap/error behavior, with unit tests.
-- `src/membercount.rs`: ports member count/bot/human calculation and response-line formatting from `src/cogs/general/membercount.py`, with unit tests (gateway integration remains pending).
-- `src/botinfo.rs`: ports uptime formatting, bot runtime summary, latency and grouped member statistics from `src/cogs/general/botinfo.py`, with unit tests (Discord state collection and buttons remain pending).\n- `src/telemetry.rs`: ports uptime, latency, resource metrics, platform/runtime summary and guild/member formatting from `src/cogs/general/stats.py`; telemetry values are adapter-supplied and covered by unit tests.
-
-These are partial feature ports, not yet wired into complete Discord commands. Rust compilation/tests have not yet been run.
+The Python backup is not being maintained as a parallel runtime. Use it only as a reference for behavior while implementing the complete Rust version. Do not deploy this as a full replacement until the Rust build succeeds and the feature migration is verified.
