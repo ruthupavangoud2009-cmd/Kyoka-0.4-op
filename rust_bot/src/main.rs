@@ -5,6 +5,8 @@ mod membercount;
 mod botinfo;
 mod telemetry;
 mod database;
+mod anti_nuke;
+mod tickets;
 mod music_queue;
 
 use axum::{routing::get, Router};
