@@ -19,12 +19,10 @@ BOT_TOKEN=... cargo run
 ## Migration status
 This is not yet a complete port. The Python bot has hundreds of modules, including moderation, music, tickets, economy, AI/voice, giveaways, utilities, and dashboard APIs. Port each feature in parity, migrate persistence and configuration, and add Rust tests before production cutover. Do not remove or replace the Python implementation until parity and validation are complete.
 
-
 ## Ported source modules (in progress)
-
 - `src/config.rs`: ports token/prefix resolution, application ID validation, shard parsing, proxy URL/pool parsing, with unit tests.
 - `src/ping.rs`: ports repeated-ping argument parsing and its cap/error behavior, with unit tests.
+- `src/membercount.rs`: ports member count/bot/human calculation and response-line formatting from `src/cogs/general/membercount.py`, with unit tests (gateway integration remains pending).
+- `src/botinfo.rs`: ports uptime formatting, bot runtime summary, latency and grouped member statistics from `src/cogs/general/botinfo.py`, with unit tests (Discord state collection and buttons remain pending).
 
-These are real source ports from `src/core/config.py`, `src/cogs/general/ping.py`, and `src/cogs/general/membercount.py`, and `src/cogs/general/botinfo.py`.
-- `src/membercount.rs`: ports member count/bot/human calculation and response-line formatting from `src/cogs/general/membercount.py`, with unit tests (gateway integration remains pending).\n- `src/botinfo.rs`: ports uptime formatting, bot runtime summary, latency and grouped member statistics from `src/cogs/general/botinfo.py`, with unit tests (Discord state collection and buttons remain pending).
- The broader bot systems remain unported. Rust compilation/tests have not yet been run.
+These are partial feature ports, not yet wired into complete Discord commands. Rust compilation/tests have not yet been run.
